@@ -4,182 +4,214 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HIZVOICE — Camellia Kernels, Recoveries &amp; Tools</title>
-<meta name="description" content="Custom kernels, recoveries and tools for the Redmi Note 10 5G (camellia, MediaTek MT6833) — built and phone-tested by hisvoice in Lusaka, Zambia.">
+<meta name="description" content="Custom kernels, recoveries and tools for the Redmi Note 10 5G (camellia, MediaTek MT6833) — built by hisvoice and tested on a real device.">
 <style>
   :root{
-    --bg:#0d1117; --surface:#161b22; --surface2:#1c2330; --border:#2b3444;
-    --text:#e8edf4; --muted:#9aa7b8; --accent:#f5a623; --accent2:#4cc38a;
-    --chip:#22304a;
+    --bg:#fbfbfd; --tile:#f5f5f7; --text:#1d1d1f; --muted:#86868b;
+    --link:#0066cc; --line:#d2d2d7; --green:#008a2e; --amber:#b25000;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{background:var(--bg); color:var(--text); font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.55;}
-  a{color:var(--accent); text-decoration:none;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased;}
+  a{color:var(--link); text-decoration:none;}
   a:hover{text-decoration:underline;}
-  .wrap{max-width:960px; margin:0 auto; padding:0 18px 60px;}
-  header{padding:56px 0 10px; text-align:center;}
-  .logo{font-size:15px; letter-spacing:4px; color:var(--accent); font-weight:700;}
-  h1{font-size:42px; line-height:1.15; margin:14px 0 10px;}
-  h1 .thin{color:var(--muted); font-weight:400;}
-  .tag{color:var(--muted); font-size:17px; max-width:640px; margin:0 auto;}
-  .badges{margin:22px 0 4px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;}
-  .badge{background:var(--chip); color:var(--text); border:1px solid var(--border); border-radius:999px; padding:5px 13px; font-size:13px;}
-  section{margin-top:44px;}
-  h2{font-size:24px; margin-bottom:6px;}
-  h2 .accent{color:var(--accent);}
-  .sub{color:var(--muted); margin-bottom:18px; font-size:15px;}
-  .story{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px;}
-  .story p{margin-bottom:12px; color:#cdd6e2;}
+  a.more::after{content:" ›"; }
+  nav{position:sticky; top:0; z-index:10; background:rgba(251,251,253,.82); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border-bottom:1px solid rgba(0,0,0,.06);}
+  .nav-in{max-width:980px; margin:0 auto; padding:0 20px; height:48px; display:flex; align-items:center; gap:26px; font-size:13px;}
+  .nav-in .brand{font-weight:700; letter-spacing:2.5px; color:var(--text); font-size:13px;}
+  .nav-in a{color:#333336;}
+  .nav-in .sp{flex:1;}
+  .hero{max-width:980px; margin:0 auto; padding:84px 20px 30px; text-align:center;}
+  .hero .over{font-size:19px; color:var(--amber); font-weight:600; margin-bottom:10px;}
+  h1{font-size:58px; line-height:1.06; letter-spacing:-0.022em; font-weight:700;}
+  h1 .gray{color:var(--muted);}
+  .hero .sub{font-size:21px; color:#515154; max-width:660px; margin:20px auto 0; line-height:1.42;}
+  .hero .cta{margin-top:22px; font-size:18px; display:flex; gap:28px; justify-content:center; flex-wrap:wrap;}
+  .badges{margin:30px 0 0; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;}
+  .badge{border:1px solid var(--line); border-radius:999px; padding:5px 14px; font-size:13px; color:#515154; background:#fff;}
+  section{max-width:980px; margin:0 auto; padding:56px 20px 8px;}
+  section h2{font-size:40px; letter-spacing:-0.02em; text-align:center; line-height:1.1;}
+  section .sub{text-align:center; color:var(--muted); font-size:18px; margin:10px auto 30px; max-width:620px;}
+  .story{background:var(--tile); border-radius:20px; padding:36px 38px;}
+  .story p{font-size:17px; color:#333336; margin-bottom:14px;}
   .story p:last-child{margin-bottom:0;}
-  .story strong{color:var(--text);}
-  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;}
-  .card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column;}
-  .card h3{font-size:18px; margin-bottom:4px;}
-  .card .device{color:var(--muted); font-size:13px; margin-bottom:10px;}
-  .card p{color:#c3cedd; font-size:14.5px; flex:1;}
-  .card .links{margin-top:14px; font-size:14px; display:flex; gap:14px; flex-wrap:wrap;}
-  .status{display:inline-block; font-size:12px; font-weight:700; letter-spacing:.4px; border-radius:999px; padding:3px 10px; margin-bottom:12px; align-self:flex-start;}
-  .st-live{background:#123324; color:var(--accent2); border:1px solid #1e5138;}
-  .st-work{background:#3a2c07; color:var(--accent); border:1px solid #6b5310;}
-  .st-src{background:#1d2a45; color:#8db4f2; border:1px solid #2f4a7a;}
-  .rules{background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:22px;}
-  .rules ul{margin-left:20px; color:#cdd6e2;}
-  .rules li{margin-bottom:8px;}
-  footer{margin-top:52px; padding-top:22px; border-top:1px solid var(--border); color:var(--muted); font-size:14px; text-align:center;}
-  footer a{color:var(--muted); text-decoration:underline;}
-  @media (max-width:560px){ h1{font-size:32px;} header{padding-top:40px;} }
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:14px;}
+  .card{background:var(--tile); border-radius:20px; padding:28px; display:flex; flex-direction:column;}
+  .card.white{background:#fff; border:1px solid #e8e8ec;}
+  .status{font-size:12px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; margin-bottom:12px;}
+  .st-live{color:var(--green);}
+  .st-work{color:var(--amber);}
+  .st-src{color:var(--link);}
+  .card h3{font-size:22px; letter-spacing:-0.01em; margin-bottom:2px;}
+  .card .device{color:var(--muted); font-size:14px; margin-bottom:10px;}
+  .card p{color:#333336; font-size:15px; flex:1;}
+  .card .links{margin-top:16px; font-size:15px; display:flex; gap:20px; flex-wrap:wrap;}
+  .card .soon{color:var(--muted); font-size:14px;}
+  .rules{background:var(--tile); border-radius:20px; padding:36px 38px;}
+  .rules ul{list-style:none;}
+  .rules li{font-size:17px; color:#333336; padding:13px 0; border-bottom:1px solid var(--line);}
+  .rules li:last-child{border-bottom:none; padding-bottom:2px;}
+  .rules li:first-child{padding-top:2px;}
+  footer{max-width:980px; margin:64px auto 0; padding:22px 20px 42px; border-top:1px solid var(--line); color:var(--muted); font-size:13px;}
+  footer .row{display:flex; gap:16px; flex-wrap:wrap; justify-content:space-between;}
+  footer a{color:#515154;}
+  @media (max-width:640px){
+    h1{font-size:38px;}
+    .hero{padding-top:56px;}
+    .hero .sub{font-size:18px;}
+    section h2{font-size:30px;}
+    .story,.rules{padding:26px 22px;}
+    .nav-in{gap:16px;}
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <div class="logo">HIZVOICE</div>
-    <h1>Camellia, pushed further<br><span class="thin">than the factory ever took it.</span></h1>
-    <p class="tag">Custom kernels, recoveries and tools for the Redmi Note 10 5G (<strong>camellia</strong>, MediaTek MT6833) — built by <strong>hisvoice</strong> and tested on a real device in Lusaka, Zambia.</p>
-    <div class="badges">
-      <span class="badge">Redmi Note 10 5G · camellia</span>
-      <span class="badge">MT6833 · Dimensity 700</span>
-      <span class="badge">Kernels 4.14 · 4.19 · 6.6</span>
-    </div>
-  </header>
+<nav>
+  <div class="nav-in">
+    <span class="brand">HIZVOICE</span>
+    <a href="#story">Kernels</a>
+    <a href="#projects">Projects</a>
+    <a href="#rules">House rules</a>
+    <span class="sp"></span>
+    <a href="https://github.com/HIZVOICE">GitHub</a>
+  </div>
+</nav>
 
-  <section>
-    <h2>The kernel <span class="accent">story</span></h2>
-    <p class="sub">Three kernel generations for a phone Xiaomi left on 4.14.</p>
-    <div class="story">
-      <p>Xiaomi shipped camellia with kernel <strong>4.14</strong> and never moved it. The work here started there — the <strong>Voice 4.14</strong> line, tuned with performance packs in two flavours: Voice-A for AOSP and Voice-H for HyperOS/MIUI.</p>
-      <p>The <strong>6.6</strong> line exists because of a door another maker left open. No Xiaomi device on this chip ever got a 6.6 kernel — but OPPO published its Android 15 kernel source for the same silicon (their Dimensity 6020 phones, the A78 5G, A79 5G and A59 5G, are MT6833 underneath). That source became the base; camellia's own drivers were ported in from Xiaomi's 4.14 tree, and the result was built up stage by stage — Stages 1 to 10, each one flashed and tested on the real phone, with FinaSU + SUSFS root, NoMount, Baseband Guard, Re-Kernel and Droidspaces support in the later stages.</p>
-      <p>A from-scratch <strong>4.19</strong> line is in the workshop now — a clean base, built up the same disciplined way: one step at a time, every step proven on the device before the next begins.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2>Projects</h2>
-    <p class="sub">Everything below is real work with a real phone behind it. "Phone-tested" means exactly that — it ran on the device, not just in a compiler.</p>
-    <div class="grid">
-
-      <div class="card">
-        <span class="status st-live">PHONE-TESTED</span>
-        <h3>Voice Kernel 6.6</h3>
-        <div class="device">Linux 6.6.30 · camellia / MT6833</div>
-        <p>The flagship line. Linux 6.6.30 on a phone that shipped with 4.14 — Stages 1–10 all booted and tested on HyperOS. FinaSU + SUSFS, NoMount, Baseband Guard, Re-Kernel, Droidspaces, Reflex governor, BBR, WireGuard, zram multi-compression.</p>
-        <div class="links"><a href="https://github.com/HIZVOICE/kernel_xiaomi_mt6833">GitHub repo</a></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-live">RELEASED LINE</span>
-        <h3>Voice Kernel 4.14</h3>
-        <div class="device">Linux 4.14 · camellia / MT6833</div>
-        <p>Where it all started. Performance packs on the stock-generation kernel — radio drivers, JEITA charging, WireGuard, BBR, zram — in Voice-A (AOSP) and Voice-H (HyperOS/MIUI) flavours.</p>
-        <div class="links"><a href="https://github.com/HIZVOICE/voice-kernel-camellia">GitHub repo</a> <a href="https://github.com/HIZVOICE/Voice-A">Voice-A</a></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-work">IN THE WORKSHOP</span>
-        <h3>Kernel 4.19</h3>
-        <div class="device">Linux 4.19.191 · camellia / MT6833</div>
-        <p>A clean, from-scratch 4.19 base — stock clocks, no packs, no root — being brought up step by step with boot-log capture built in from the start, so every failure leaves evidence instead of a frozen logo.</p>
-        <div class="links"><span style="color:var(--muted)">Repo arrives with the first booting build</span></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-src">SOURCE</span>
-        <h3>TWRP for Camellia</h3>
-        <div class="device">Recovery · camellia</div>
-        <p>Team Win Recovery Project device tree and builds for the Redmi Note 10 5G — the recovery this whole workshop flashes from.</p>
-        <div class="links"><a href="https://github.com/HIZVOICE/twrp-android-device-xiaomi-camellia">GitHub repo</a></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-src">SOURCE</span>
-        <h3>OrangeFox for Camellia</h3>
-        <div class="device">Recovery · camellia</div>
-        <p>OrangeFox Recovery device tree for camellia, with FBE decryption work — PIN decrypt and touch verified on the device.</p>
-        <div class="links"><a href="https://github.com/HIZVOICE/fox-twrp-device-camellia">GitHub repo</a></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-work">IN DEVELOPMENT</span>
-        <h3>AERA Recovery</h3>
-        <div class="device">Recovery · camellia</div>
-        <p>An independent recovery built on LVGL — not a TWRP fork. AERA is an experiment in writing a recovery from a blank page instead of inheriting one.</p>
-        <div class="links"><a href="https://github.com/HIZVOICE/android_device_xiaomi_camellia-AERA">GitHub repo</a></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-work">IN PROGRESS</span>
-        <h3>Mi Camera Port</h3>
-        <div class="device">App port · AOSP on camellia</div>
-        <p>Xiaomi's Mi Camera — with Mi Gallery to follow — ported to AOSP ROMs on camellia, where the stock camera experience is normally lost. Built as a flashable module.</p>
-        <div class="links"><span style="color:var(--muted)">Repo arrives with the first working release</span></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-work">IN PROGRESS</span>
-        <h3>Flash Tool</h3>
-        <div class="device">Windows · fastboot flashing</div>
-        <p>A Windows tool for flashing custom ROMs — partition flashing with A/B slot control, payload.bin flashing straight out of a ROM zip, ADB sideload and reboot controls, with a device check and confirmation before anything writes. A Python edition for the public, a native C++ edition for speed.</p>
-        <div class="links"><span style="color:var(--muted)">Public release in preparation</span></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-src">SOURCE</span>
-        <h3>Root My Pixel</h3>
-        <div class="device">Tool · Google Pixel</div>
-        <p>The same hands, a different phone — tooling for supported Google Pixel devices.</p>
-        <div class="links"><a href="https://github.com/HIZVOICE/Root-My-Pixel">GitHub repo</a></div>
-      </div>
-
-      <div class="card">
-        <span class="status st-src">SOURCE</span>
-        <h3>404 VPN</h3>
-        <div class="device">App</div>
-        <p>A VPN build by people who like anonymity.</p>
-        <div class="links"><a href="https://github.com/HIZVOICE/404-VPN-">GitHub repo</a></div>
-      </div>
-
-    </div>
-  </section>
-
-  <section>
-    <h2>House <span class="accent">rules</span></h2>
-    <p class="sub">The doctrine every build on this page was made under.</p>
-    <div class="rules">
-      <ul>
-        <li><strong>Nothing is "working" until it runs on the phone.</strong> A clean compile is a hypothesis; the device gives the verdict.</li>
-        <li><strong>One change at a time.</strong> If a build breaks, the cause is the one thing that changed.</li>
-        <li><strong>No logs, no fix.</strong> Guessing in circles wastes days — capture the evidence first.</li>
-        <li><strong>Never re-lock the bootloader, never flash another model's preloader.</strong> Some mistakes have no way back.</li>
-        <li><strong>Stock clocks are the shipping rule.</strong> Experiments happen on experiment builds, clearly labelled, never on the daily driver line.</li>
-      </ul>
-    </div>
-  </section>
-
-  <footer>
-    <p>© 2026 hisvoice · <a href="https://github.com/HIZVOICE">github.com/HIZVOICE</a> · Lusaka, Zambia</p>
-    <p style="margin-top:6px;">Built on a Toshiba laptop, flashed to a Redmi Note 10 5G that has survived all of it.</p>
-  </footer>
-
+<div class="hero">
+  <div class="over">Redmi Note 10 5G · camellia</div>
+  <h1>Camellia, pushed further<br><span class="gray">than the factory ever took it.</span></h1>
+  <p class="sub">Custom kernels, recoveries and tools for the Redmi Note 10 5G — built by hisvoice, and proven the only way that counts: on the device itself.</p>
+  <div class="cta">
+    <a class="more" href="#projects">See the projects</a>
+    <a class="more" href="https://github.com/HIZVOICE">GitHub</a>
+  </div>
+  <div class="badges">
+    <span class="badge">MediaTek MT6833 · Dimensity 700</span>
+    <span class="badge">Kernels 4.14 · 4.19 · 6.6</span>
+    <span class="badge">Phone-tested, always</span>
+  </div>
 </div>
+
+<section id="story">
+  <h2>Three kernels. One phone.</h2>
+  <p class="sub">Xiaomi left camellia on kernel 4.14. This is the road past it.</p>
+  <div class="story">
+    <p>It started with <strong>Voice 4.14</strong> — the stock-generation kernel, tuned with performance packs in two flavours: Voice-A for AOSP, Voice-H for HyperOS and MIUI.</p>
+    <p>The <strong>6.6</strong> line exists because another maker left a door open. No Xiaomi phone on this chip ever received a 6.6 kernel — but OPPO published its Android 15 kernel source for the same silicon: its Dimensity 6020 phones (the A78 5G, A79 5G and A59 5G) are MT6833 underneath. That source became the base, camellia's own drivers were ported in from Xiaomi's 4.14 tree, and the kernel was built up stage by stage — Stages 1 to 10, each flashed and tested on the real phone, carrying FinaSU + SUSFS root, NoMount, Baseband Guard, Re-Kernel and Droidspaces support in the later stages.</p>
+    <p>And a from-scratch <strong>4.19</strong> line is in the workshop now — a clean base, raised the same disciplined way: one step at a time, every step proven on the device before the next begins.</p>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <p class="sub">"Phone-tested" means exactly that — it ran on the device, not just in a compiler.</p>
+  <div class="grid">
+
+    <div class="card">
+      <div class="status st-live">Phone-tested</div>
+      <h3>Voice Kernel 6.6</h3>
+      <div class="device">Linux 6.6.30 · camellia / MT6833</div>
+      <p>The flagship line. Linux 6.6.30 on a phone that shipped with 4.14 — Stages 1–10 all booted and tested on HyperOS. FinaSU + SUSFS, NoMount, Baseband Guard, Re-Kernel, Droidspaces, Reflex governor, BBR, WireGuard, zram multi-compression.</p>
+      <div class="links"><a class="more" href="https://github.com/HIZVOICE/kernel_xiaomi_mt6833">GitHub repo</a></div>
+    </div>
+
+    <div class="card">
+      <div class="status st-live">Released line</div>
+      <h3>Voice Kernel 4.14</h3>
+      <div class="device">Linux 4.14 · camellia / MT6833</div>
+      <p>Where it all started. Performance packs on the stock-generation kernel — radio drivers, JEITA charging, WireGuard, BBR, zram — in Voice-A (AOSP) and Voice-H (HyperOS/MIUI) flavours.</p>
+      <div class="links"><a class="more" href="https://github.com/HIZVOICE/voice-kernel-camellia">GitHub repo</a> <a class="more" href="https://github.com/HIZVOICE/Voice-A">Voice-A</a></div>
+    </div>
+
+    <div class="card">
+      <div class="status st-work">In the workshop</div>
+      <h3>Kernel 4.19</h3>
+      <div class="device">Linux 4.19.191 · camellia / MT6833</div>
+      <p>A clean, from-scratch 4.19 base — stock clocks, no packs, no root — brought up step by step with boot-log capture built in from the start, so every failure leaves evidence instead of a frozen logo.</p>
+      <div class="links"><span class="soon">Repo arrives with the first booting build</span></div>
+    </div>
+
+    <div class="card white">
+      <div class="status st-src">Source</div>
+      <h3>TWRP for Camellia</h3>
+      <div class="device">Recovery · camellia</div>
+      <p>Team Win Recovery Project device tree and builds for the Redmi Note 10 5G — the recovery this whole workshop flashes from.</p>
+      <div class="links"><a class="more" href="https://github.com/HIZVOICE/twrp-android-device-xiaomi-camellia">GitHub repo</a></div>
+    </div>
+
+    <div class="card white">
+      <div class="status st-src">Source</div>
+      <h3>OrangeFox for Camellia</h3>
+      <div class="device">Recovery · camellia</div>
+      <p>OrangeFox Recovery device tree for camellia, with FBE decryption work — PIN decrypt and touch verified on the device.</p>
+      <div class="links"><a class="more" href="https://github.com/HIZVOICE/fox-twrp-device-camellia">GitHub repo</a></div>
+    </div>
+
+    <div class="card white">
+      <div class="status st-work">In development</div>
+      <h3>AERA Recovery</h3>
+      <div class="device">Recovery · camellia</div>
+      <p>An independent recovery built on LVGL — not a TWRP fork. An experiment in writing a recovery from a blank page instead of inheriting one.</p>
+      <div class="links"><a class="more" href="https://github.com/HIZVOICE/android_device_xiaomi_camellia-AERA">GitHub repo</a></div>
+    </div>
+
+    <div class="card">
+      <div class="status st-work">In progress</div>
+      <h3>Mi Camera Port</h3>
+      <div class="device">App port · AOSP on camellia</div>
+      <p>Xiaomi's Mi Camera — with Mi Gallery to follow — ported to AOSP ROMs on camellia, where the stock camera experience is normally lost. Built as a flashable module.</p>
+      <div class="links"><span class="soon">Repo arrives with the first working release</span></div>
+    </div>
+
+    <div class="card">
+      <div class="status st-work">In progress</div>
+      <h3>Flash Tool</h3>
+      <div class="device">Windows · fastboot flashing</div>
+      <p>A Windows tool for flashing custom ROMs — partition flashing with A/B slot control, payload.bin flashing straight out of a ROM zip, ADB sideload and reboot controls, with a device check and a confirmation before anything writes. A Python edition for the public, a native C++ edition for speed.</p>
+      <div class="links"><span class="soon">Public release in preparation</span></div>
+    </div>
+
+    <div class="card white">
+      <div class="status st-src">Source</div>
+      <h3>Root My Pixel</h3>
+      <div class="device">Tool · Google Pixel</div>
+      <p>The same hands, a different phone — tooling for supported Google Pixel devices.</p>
+      <div class="links"><a class="more" href="https://github.com/HIZVOICE/Root-My-Pixel">GitHub repo</a></div>
+    </div>
+
+    <div class="card white">
+      <div class="status st-src">Source</div>
+      <h3>404 VPN</h3>
+      <div class="device">App</div>
+      <p>A VPN build by people who like anonymity.</p>
+      <div class="links"><a class="more" href="https://github.com/HIZVOICE/404-VPN-">GitHub repo</a></div>
+    </div>
+
+  </div>
+</section>
+
+<section id="rules">
+  <h2>House rules</h2>
+  <p class="sub">The doctrine every build on this page was made under.</p>
+  <div class="rules">
+    <ul>
+      <li><strong>Nothing is "working" until it runs on the phone.</strong> A clean compile is a hypothesis; the device gives the verdict.</li>
+      <li><strong>One change at a time.</strong> If a build breaks, the cause is the one thing that changed.</li>
+      <li><strong>No logs, no fix.</strong> Capture the evidence first — guessing in circles wastes days.</li>
+      <li><strong>Never re-lock the bootloader. Never flash another model's preloader.</strong> Some mistakes have no way back.</li>
+      <li><strong>Stock clocks are the shipping rule.</strong> Experiments live on experiment builds, clearly labelled — never on the daily-driver line.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="row">
+    <span>Copyright © 2026 hisvoice. All rights reserved.</span>
+    <span><a href="https://github.com/HIZVOICE">github.com/HIZVOICE</a></span>
+  </div>
+  <p style="margin-top:10px;">Built on a Toshiba laptop, flashed to a Redmi Note 10 5G that has survived all of it.</p>
+</footer>
+
 </body>
 </html>
